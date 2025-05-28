@@ -1,34 +1,34 @@
-"use client";
-import { useState } from "react";
-import { Link } from "react-router"; // Corrected import for React Router
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Clock, Star, Truck, ShieldCheck } from "lucide-react";
-import { ClockIcon, HelpCircleIcon, PlusIcon, ShoppingCartIcon, StarIcon, TruckIcon, ShieldIcon, XIcon, MinusIcon } from "@/components/Icons"; // Assuming icons are in a separate file
-import "../styles/PricingPage.css"; // Assuming the same CSS is used for styling consistency
+"use client"
+
+import { useState } from "react"
+import { Link } from "react-router"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Clock, Star, Truck, ShieldCheck } from "lucide-react"
+import { ClockIcon, HelpCircleIcon, PlusIcon, ShoppingCartIcon, StarIcon, TruckIcon, ShieldIcon, XIcon, MinusIcon } from "@/components/Icons"
+import "../styles/PricingPage.css"
 
 export default function Home() {
-  // State for cart functionality in Header
-  const [cart, setCart] = useState([]);
-  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [cart, setCart] = useState([])
+  const [isCartOpen, setIsCartOpen] = useState(false)
 
   const getTotalItems = () => {
-    return cart.reduce((total, item) => total + item.quantity, 0);
-  };
+    return cart.reduce((total, item) => total + item.quantity, 0)
+  }
 
   const updateQuantity = (id, newQuantity) => {
     if (newQuantity === 0) {
-      setCart((prevCart) => prevCart.filter((item) => item.id !== id));
+      setCart((prevCart) => prevCart.filter((item) => item.id !== id))
     } else {
       setCart((prevCart) =>
         prevCart.map((item) => (item.id === id ? { ...item, quantity: newQuantity } : item))
-      );
+      )
     }
-  };
+  }
 
   const getTotalPrice = () => {
-    return cart.reduce((total, item) => total + item.price * item.quantity, 0);
-  };
+    return cart.reduce((total, item) => total + item.price * item.quantity, 0)
+  }
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
@@ -51,7 +51,7 @@ export default function Home() {
                   {cart.map((item) => (
                     <div key={item.id} className="flex items-center gap-3 p-3 border rounded-lg mb-3">
                       <img
-                        src={item.image || "/placeholder.svg"}
+                        src={item.image || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=300&h=200&fit=crop"}
                         alt={item.name}
                         className="w-12 h-12 rounded object-cover"
                       />
@@ -118,7 +118,7 @@ export default function Home() {
             </div>
             <div className="md:w-1/2 flex justify-center">
               <img
-                src="/placeholder.svg?height=400&width=500"
+                src="https://images.unsplash.com/photo-1556906781-9a412961c28c?q=80&w=500&h=400&fit=crop"
                 alt="Laundry Service"
                 width="500"
                 height="400"
@@ -215,8 +215,8 @@ export default function Home() {
               <div className="bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 w-full max-w-xs">
                 <div className="h-48 bg-gray-200 relative">
                   <img
-                    src="/placeholder.svg?height=200&width=300"
-                    alt="Laundry Service"
+                    src="https://images.unsplash.com/photo-1582738411706-b3b237ef4308?q=80&w=300&h=200&fit=crop"
+                    alt="Wash & Fold"
                     className="absolute inset-0 w-full h-full object-cover rounded-t-lg"
                   />
                 </div>
@@ -229,7 +229,7 @@ export default function Home() {
               <div className="bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 w-full max-w-xs">
                 <div className="h-48 bg-gray-200 relative">
                   <img
-                    src="/placeholder.svg?height=200&width=300"
+                    src="https://images.unsplash.com/photo-1578683012567-7d2196e67a18?q=80&w=300&h=200&fit=crop"
                     alt="Dry Cleaning"
                     className="absolute inset-0 w-full h-full object-cover rounded-t-lg"
                   />
@@ -245,8 +245,8 @@ export default function Home() {
               <div className="bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 w-full max-w-xs">
                 <div className="h-48 bg-gray-200 relative">
                   <img
-                    src="/placeholder.svg?height=200&width=300"
-                    alt="Ironing Service"
+                    src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=300&h=200&fit=crop"
+                    alt="Ironing"
                     className="absolute inset-0 w-full h-full object-cover rounded-t-lg"
                   />
                 </div>
@@ -259,7 +259,7 @@ export default function Home() {
               <div className="bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 w-full max-w-xs">
                 <div className="h-48 bg-gray-200 relative">
                   <img
-                    src="/placeholder.svg?height=200&width=300"
+                    src="https://images.unsplash.com/photo-1556906781-9a412961c28c?q=80&w=300&h=200&fit=crop"
                     alt="Bedding & Linens"
                     className="absolute inset-0 w-full h-full object-cover rounded-t-lg"
                   />
@@ -297,7 +297,11 @@ export default function Home() {
                   pickup and delivery fits perfectly with my busy schedule."
                 </p>
                 <div className="flex items-center">
-                  <div className="w-10 h-10 bg-gray-200 rounded-full mr-3"></div>
+                  <img
+                    src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=40&h=40&fit=crop"
+                    alt="Sarah Johnson"
+                    className="w-10 h-10 rounded-full mr-3"
+                  />
                   <div>
                     <p className="font-medium text-gray-900">Sarah Johnson</p>
                     <p className="text-sm text-gray-500">Marketing Executive</p>
@@ -317,7 +321,11 @@ export default function Home() {
                   and customer service is outstanding."
                 </p>
                 <div className="flex items-center">
-                  <div className="w-10 h-10 bg-gray-200 rounded-full mr-3"></div>
+                  <img
+                    src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=40&h=40&fit=crop"
+                    alt="Michael Chen"
+                    className="w-10 h-10 rounded-full mr-3"
+                  />
                   <div>
                     <p className="font-medium text-gray-900">Michael Chen</p>
                     <p className="text-sm text-gray-500">Software Developer</p>
@@ -337,7 +345,11 @@ export default function Home() {
                   Highly recommend their service."
                 </p>
                 <div className="flex items-center">
-                  <div className="w-10 h-10 bg-gray-200 rounded-full mr-3"></div>
+                  <img
+                    src="https://images.unsplash.com/photo-1487412721497-9f7a8733ddf4?q=80&w=40&h=40&fit=crop"
+                    alt="Emma Rodriguez"
+                    className="w-10 h-10 rounded-full mr-3"
+                  />
                   <div>
                     <p className="font-medium text-gray-900">Emma Rodriguez</p>
                     <p className="text-sm text-gray-500">Teacher</p>
@@ -407,5 +419,5 @@ export default function Home() {
         </section>
       </main>
     </div>
-  );
+  )
 }
