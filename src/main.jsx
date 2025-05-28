@@ -30,7 +30,7 @@ createRoot(document.getElementById('root')).render(
       <BrowserRouter>
         <Routes>
           <Route element={<RootLayout />}>
-           <Route element={<ProtectedLayout />}>
+          
             <Route
               path="/"
               element={<RedirectBasedOnRole />}
@@ -40,7 +40,7 @@ createRoot(document.getElementById('root')).render(
                 <Route path="pricing" element={<PricingPage />} />
               </Route>
             </Route>
-
+ <Route element={<ProtectedLayout />}>
            
            
 
