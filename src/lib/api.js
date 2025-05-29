@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-const Backend_URL = "http://localhost:8000";
+const Backend_URL = import.meta.env.VITE_BACKEND_URL;
 
 export const api = createApi({
   reducerPath: "api",
