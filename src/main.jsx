@@ -3,7 +3,8 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import Home from './pages/home.page'
 import { ClerkProvider } from '@clerk/clerk-react';
-
+import {Provider} from 'react-redux'; 
+import {store} from './lib/store';
 import { BrowserRouter, Routes, Route } from "react-router";
 import PricingPage from './pages/pricing.page';
 import SignInPage from './pages/sign-in.page';
@@ -16,7 +17,7 @@ import AdminProtectedLayout from './layouts/admin-protected.layout'
 import Dashboard from './admin/pages/Dashboard.page';
 import AdminMainLayout from './layouts/admin.main.layout';
 import RedirectBasedOnRole from './layouts/redirect';
-import CategoryManagement from './admin/pages/category.page';
+import CategoryManagement from './admin/pages/CategoryManagement';
 
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
@@ -28,6 +29,7 @@ if (!PUBLISHABLE_KEY) {
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
+     <Provider store={store}>
       <BrowserRouter>
         <Routes>
           <Route element={<RootLayout />}>
@@ -59,6 +61,7 @@ createRoot(document.getElementById('root')).render(
           </Route>
         </Routes>
       </BrowserRouter>
+      </Provider>
     </ClerkProvider>
   </StrictMode>,
 )
