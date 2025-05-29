@@ -1,6 +1,4 @@
-"use client"
-
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Link, useLocation } from "react-router"
 import {
   LayoutDashboard,
@@ -20,8 +18,20 @@ import { useUser, SignOutButton, UserButton } from "@clerk/clerk-react"
 
 export default function AppSidebar() {
   const [expanded, setExpanded] = useState(true)
+  const [isMobile, setIsMobile] = useState(true)
   const location = useLocation()
   const { user } = useUser()
+
+  // Handle responsive behavior
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768)
+      setExpanded(window.innerWidth >= 768)
+    }
+    handleResize()
+    window.addEventListener("resize", handleResize)
+    return () => window.removeEventListener("resize", handleResize)
+  }, [])
 
   const isActive = (path) => {
     return location.pathname === path
@@ -30,56 +40,62 @@ export default function AppSidebar() {
   const navigation = [
     {
       name: "Dashboard",
-      icon: <LayoutDashboard className="w-6 h-6" />,
+      icon: <LayoutDashboard className="w-5 h-5" />,
       path: "/admin",
       active: isActive("/admin"),
     },
+     {
+      name: "Services Category",
+      icon: <Shirt className="w-5 h-5" />,
+      path: "/admin/category",
+      active: isActive("/admin/category"),
+    },
     {
       name: "Orders",
-      icon: <ShoppingBasket className="w-6 h-6" />,
+      icon: <ShoppingBasket className="w-5 h-5" />,
       path: "/admin/orders",
       active: isActive("/admin/orders"),
       badge: 12,
     },
     {
       name: "Customers",
-      icon: <Users className="w-6 h-6" />,
+      icon: <Users className="w-5 h-5" />,
       path: "/admin/customers",
       active: isActive("/admin/customers"),
     },
     {
       name: "Schedule",
-      icon: <Calendar className="w-6 h-6" />,
+      icon: <Calendar className="w-5 h-5" />,
       path: "/admin/schedule",
       active: isActive("/admin/schedule"),
     },
     {
       name: "Deliveries",
-      icon: <Truck className="w-6 h-6" />,
+      icon: <Truck className="w-5 h-5" />,
       path: "/admin/deliveries",
       active: isActive("/admin/deliveries"),
     },
     {
       name: "Inventory",
-      icon: <Package className="w-6 h-6" />,
+      icon: <Package className="w-5 h-5" />,
       path: "/admin/inventory",
       active: isActive("/admin/inventory"),
     },
     {
       name: "Services",
-      icon: <Shirt className="w-6 h-6" />,
+      icon: <Shirt className="w-5 h-5" />,
       path: "/admin/services",
       active: isActive("/admin/services"),
     },
     {
       name: "Analytics",
-      icon: <BarChart3 className="w-6 h-6" />,
+      icon: <BarChart3 className="w-5 h-5" />,
       path: "/admin/analytics",
       active: isActive("/admin/analytics"),
     },
     {
       name: "Settings",
-      icon: <Settings className="w-6 h-6" />,
+      icon: <Settings className="w-5 h-5" />,
       path: "/admin/settings",
       active: isActive("/admin/settings"),
     },
@@ -88,61 +104,73 @@ export default function AppSidebar() {
   return (
     <aside
       className={`${
-        expanded ? "w-64" : "w-20"
-      } bg-white border-r border-gray-200 h-screen transition-all duration-300 ease-in-out flex flex-col`}
+        expanded ? "w-64" : "w-16"
+      } bg-white shadow-lg h-screen transition-all duration-300 ease-in-out flex flex-col fixed md:sticky top-0 z-40 md:z-30 border-r border-gray-200 md:min-w-[64px] ${isMobile && !expanded ? "hidden" : "flex"}`}
+      aria-label="Main navigation"
     >
-      <div className="p-4 flex items-center justify-between border-b">
+      {/* Header Section */}
+      <div className="p-4 flex items-center justify-between border-b border-gray-200">
         <div className={`flex items-center ${!expanded && "justify-center w-full"}`}>
           <div className="bg-sky-600 text-white p-2 rounded-md">
             <Package className="w-6 h-6" />
           </div>
           {expanded && (
-            <span className="ml-2 font-bold text-xl text-gray-800">
+            <span className="ml-3 font-semibold text-lg text-gray-900">
               Laundry<span className="text-sky-600">Admin</span>
             </span>
           )}
         </div>
         <button
           onClick={() => setExpanded(!expanded)}
-          className={`p-1.5 rounded-lg bg-gray-100 hover:bg-gray-200 ${!expanded && "hidden"}`}
+          className={`p-2 rounded-lg bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-sky-500 ${!expanded && "hidden"}`}
+          aria-label={expanded ? "Collapse sidebar" : "Expand sidebar"}
         >
           <ChevronLeft className="w-5 h-5" />
         </button>
         {!expanded && (
           <button
             onClick={() => setExpanded(!expanded)}
-            className="p-1.5 rounded-lg bg-gray-100 hover:bg-gray-200 absolute -right-3 top-10"
+            className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 absolute -right-3 top-10 shadow-md focus:outline-none focus:ring-2 focus:ring-sky-500"
+            aria-label="Expand sidebar"
           >
             <ChevronRight className="w-5 h-5" />
           </button>
         )}
       </div>
 
-      <div className="flex-1 overflow-y-auto py-4 px-3">
-        <ul className="space-y-2">
+      {/* Navigation Links */}
+      <nav className="flex-1 overflow-y-auto py-4 px-3">
+        <ul className="space-y-1">
           {navigation.map((item) => (
             <li key={item.name}>
               <Link
                 to={item.path}
-                className={`flex items-center p-3 rounded-lg ${
-                  item.active ? "bg-sky-50 text-sky-600" : "text-gray-700 hover:bg-gray-100"
-                } transition-colors group`}
+                className={`flex items-center p-2.5 rounded-lg text-sm font-medium ${
+                  item.active
+                    ? "bg-sky-50 text-sky-700 font-semibold"
+                    : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+                } transition-colors duration-200 group focus:outline-none focus:ring-2 focus:ring-sky-500`}
+                aria-current={item.active ? "page" : undefined}
               >
-                <div className={`${item.active ? "text-sky-600" : "text-gray-500 group-hover:text-gray-700"}`}>
+                <div
+                  className={`${
+                    item.active ? "text-sky-700" : "text-gray-500 group-hover:text-gray-700"
+                  } flex-shrink-0`}
+                >
                   {item.icon}
                 </div>
                 {expanded && (
                   <>
-                    <span className="ml-3 flex-1">{item.name}</span>
+                    <span className="ml-3 flex-1 truncate">{item.name}</span>
                     {item.badge && (
-                      <span className="bg-sky-600 text-white text-xs font-medium px-2.5 py-0.5 rounded-full">
+                      <span className="bg-sky-600 text-white text-xs font-medium px-2 py-0.5 rounded-full">
                         {item.badge}
                       </span>
                     )}
                   </>
                 )}
                 {!expanded && item.badge && (
-                  <span className="absolute left-11 bg-sky-600 text-white text-xs font-medium w-5 h-5 flex items-center justify-center rounded-full">
+                  <span className="absolute left-10 bg-sky-600 text-white text-xs font-medium w-5 h-5 flex items-center justify-center rounded-full">
                     {item.badge}
                   </span>
                 )}
@@ -150,14 +178,15 @@ export default function AppSidebar() {
             </li>
           ))}
         </ul>
-      </div>
+      </nav>
 
+      {/* User Section */}
       <div className={`border-t p-4 ${expanded ? "" : "flex justify-center"}`}>
         {expanded ? (
-          <div className="flex items-center">
+          <div className="flex items-center space-x-3">
             <UserButton />
-            <div className="ml-3">
-              <p className="text-sm font-medium text-gray-800">
+            <div className="min-w-0">
+              <p className="text-sm font-medium text-gray-900 truncate">
                 {user?.fullName || "Administrator"}
               </p>
               <p className="text-xs text-gray-500">Administrator</p>
@@ -168,14 +197,16 @@ export default function AppSidebar() {
         )}
       </div>
 
+      {/* Logout Button */}
       <div className="p-4 border-t">
         <SignOutButton>
           <button
-            className={`flex items-center justify-center w-full p-2 text-gray-700 hover:bg-gray-100 rounded-lg ${
-              expanded ? "justify-start" : ""
+            className={`flex items-center w-full p-2.5 text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-900 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-sky-500 ${
+              expanded ? "justify-start" : "justify-center"
             }`}
+            aria-label="Logout"
           >
-            <LogOut className="w-5 h-5" />
+            <LogOut className="w-5 h-5 flex-shrink-0" />
             {expanded && <span className="ml-3">Logout</span>}
           </button>
         </SignOutButton>
