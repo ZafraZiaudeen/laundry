@@ -50,6 +50,12 @@ export default function AppSidebar() {
 			path: "/admin/category",
 			active: isActive("/admin/category"),
 		},
+    {
+			name: "Services Items",
+			icon: <Shirt className="w-5 h-5" />,
+			path: "/admin/serviceItems",
+			active: isActive("/admin/serviceItems"),
+		},
 		{
 			name: "Orders",
 			icon: <ShoppingBasket className="w-5 h-5" />,

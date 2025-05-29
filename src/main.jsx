@@ -18,6 +18,7 @@ import Dashboard from './admin/pages/Dashboard.page';
 import AdminMainLayout from './layouts/admin.main.layout';
 import RedirectBasedOnRole from './layouts/redirect';
 import CategoryManagement from './admin/pages/CategoryManagement';
+import ServiceItemsManagement from './admin/pages/ServiceItems';
 
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
@@ -51,6 +52,7 @@ createRoot(document.getElementById('root')).render(
               <Route element={<AdminMainLayout />}>
                 <Route path="/admin/dashboard" element={<Dashboard />} />
                  <Route path="/admin/category" element={<CategoryManagement />} />
+                 <Route path="/admin/serviceItems" element={<ServiceItemsManagement/>} />
               </Route>
             </Route>
              
